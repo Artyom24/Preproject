@@ -20,6 +20,7 @@ public class UserDAOHibernateImpl implements DAO {
 
     public UserDAOHibernateImpl() {
         this.session = DBHelper.getSessionFactory().openSession();
+
     }
 
     public int addUser (User user) {
@@ -60,11 +61,12 @@ public class UserDAOHibernateImpl implements DAO {
 
     public int updateUser (User existUser, User newUser) {
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("update User set name = :newName, login = :newLogin, password = :newPassword " +
+        Query query = session.createQuery("update User set name = :newName, login = :newLogin, password = :newPassword, role = :newRole " +
                 "where login = :existLogin");
         query.setParameter("newName", newUser.getName());
         query.setParameter("newLogin", newUser.getLogin());
         query.setParameter("newPassword", newUser.getPassword());
+        query.setParameter("newRole", newUser.getRole());
         query.setParameter("existLogin", existUser.getLogin());
         try {
             query.executeUpdate();

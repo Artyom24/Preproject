@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/add")
+@WebServlet("/admin/add")
 public class AddServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,13 +24,14 @@ public class AddServlet extends HttpServlet {
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String password = req.getParameter("pass");
-        User user = new User(name, login, password);
+        String role = req.getParameter("role");
+        User user = new User(name, login, password, role);
         if( UserService.getInstance().createUser(user)==1) {
            resp.setStatus(HttpServletResponse.SC_CREATED);
         }
         else {
            resp.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
         }
-        resp.sendRedirect("/add");
+        resp.sendRedirect("/admin/add");
     }
 }

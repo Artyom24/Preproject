@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/update")
+@WebServlet("/admin/update")
 public class UpdateServlet extends HttpServlet {
    private User user;
 
@@ -30,15 +30,16 @@ public class UpdateServlet extends HttpServlet {
        String name = req.getParameter("name");
        String login = req.getParameter("login");
        String password = req.getParameter("pass");
+       String role = req.getParameter("role");
 
-       if(!user.getName().equals(name) || !user.getLogin().equals(login) || !user.getPassword().equals(password)) {
-           User newUser = new User(name, login, password);
+       if(!user.getName().equals(name) || !user.getLogin().equals(login) || !user.getPassword().equals(password) || !user.getRole().equals(role)) {
+           User newUser = new User(name, login, password, role);
            if(UserService.getInstance().updateUser(user, newUser)==0) {
                req.setAttribute("user", user);
                resp.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
                req.getRequestDispatcher("/WEB-INF/update.jsp").forward(req, resp);
            }
        }
-       resp.sendRedirect("/");
+       resp.sendRedirect("/admin/list");
     }
 }

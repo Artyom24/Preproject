@@ -16,10 +16,11 @@ public class UserDaoJDBSImpl implements DAO {
 
     public int addUser(User user)  {
         try {
-            PreparedStatement pS = connection.prepareStatement("insert into users (name, password, login) values (?, ?, ?)");
+            PreparedStatement pS = connection.prepareStatement("insert into users (name, password, login, role) values (?, ?, ?, ?)");
             pS.setString(1, user.getName());
             pS.setString(2, user.getPassword());
             pS.setString(3, user.getLogin());
+            pS.setString(4, user.getRole());
             return pS.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,7 +61,8 @@ public class UserDaoJDBSImpl implements DAO {
                     result.getLong(1),
                     result.getString(2),
                     result.getString(3),
-                    result.getString(4)
+                    result.getString(4),
+                    result.getString(5)
             );
             result.close();
             pS.close();
@@ -81,7 +83,9 @@ public class UserDaoJDBSImpl implements DAO {
                 User user = new User (
                         result.getLong(1),
                         result.getString(2),
-                        result.getString(3)
+                        result.getString(3),
+                        result.getString(4)
+
                 );
                 users.add(user);
             }
@@ -107,11 +111,12 @@ public class UserDaoJDBSImpl implements DAO {
 
     public int updateUser(User existUser, User newUser) {
         try {
-            PreparedStatement statement = connection.prepareStatement("update users set name = ?, login = ?, password = ? where login like ?");
+            PreparedStatement statement = connection.prepareStatement("update users set name = ?, login = ?, password = ?, role = ? where login like ?");
             statement.setString(1, newUser.getName());
             statement.setString(2, newUser.getLogin());
             statement.setString(3, newUser.getPassword());
-            statement.setString(4, existUser.getLogin());
+            statement.setString(4, newUser.getRole());
+            statement.setString(5, existUser.getLogin());
             statement.execute();
             statement.close();
             return 1;

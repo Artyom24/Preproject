@@ -32,6 +32,10 @@
             <label>Name: <input type="text" name="name" value="${user.name}" class="w3-input w3-animate-input w3-border w3-round-large" style="width: 30%" required><br /> </label>
             <label>Login: <input type="text" name="login" value="${user.login}" class="w3-input w3-animate-input w3-border w3-round-large" style="width: 30%" required><br /> </label>
             <label>Password: <input type="text" name="pass" value="${user.password}" class="w3-input w3-animate-input w3-border w3-round-large" style="width: 30%" required><br /> </label>
+            <p>Current Role: ${user.role}<Br>
+                <input type="radio" name="role" value="user" checked> user<Br>
+                <input type="radio" name="role" value="admin"> admin
+            </p>
             <button type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom">Submit</button>
         </form>
 
