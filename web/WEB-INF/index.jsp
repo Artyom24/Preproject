@@ -28,7 +28,7 @@
         <div class="w3-container w3-center w3-green">
             <h2>Authorization</h2>
         </div>
-        <form method="post" class="w3-selection w3-light-grey w3-padding">
+        <form method="post" action="/auth" class="w3-selection w3-light-grey w3-padding">
             <label>Login:
                 <input type="text" name="login" class="w3-input w3-animate-input w3-border w3-round-large" style="width: 30%" required><br />
             </label>
@@ -38,26 +38,14 @@
             <button type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom">Submit</button>
         </form>
 
-        <c:choose>
-            <c:when test="${pageContext.response.status eq 201}">
-                <div class="w3-panel w3-green w3-display-container w3-card-4 w3-round">
-                    <span onclick="this.parentElement.style.display='none'"class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-red w3-border w3-border-red w3-hover-border-grey">×</span>
-                    <h5>User successfully added</h5>
-                </div>
-            </c:when>
-            <c:when test="${pageContext.response.status eq 400}">
+
+            <c:if test="${pageContext.response.status eq 400}">
                 <div class="w3-panel w3-red w3-display-container w3-card-4 w3-round">
                     <span onclick="this.parentElement.style.display='none'"class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-red w3-border w3-border-red w3-hover-border-grey">×</span>
-                    <h5>Failed to add user</h5>
+                    <h5>User not registered or wrong password!  </h5>
                 </div>
-            </c:when>
-            <c:when test="${pageContext.response.status eq 406}">
-                <div class="w3-panel w3-red w3-display-container w3-card-4 w3-round">
-                    <span onclick="this.parentElement.style.display='none'"class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-red w3-border w3-border-red w3-hover-border-grey">×</span>
-                    <h5>Login is already taken. Please choose a different login!</h5>
-                </div>
-            </c:when>
-        </c:choose>
+            </c:if>
+
 
     </div>
 </div>

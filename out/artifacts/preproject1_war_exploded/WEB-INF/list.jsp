@@ -39,8 +39,8 @@
                     <c:forEach items="${users}" var="user">
                         <li class="w3-hover-sand">
                             User ID: ${user.id} | User name: ${user.name} | User login: ${user.login} | User role: ${user.role}
-                            <button class="w3-btn w3-round-large w3-light-blue\" onclick="location.href='/update?id=${user.id}'">Update</button>
-                            <button class="w3-btn w3-round-large w3-light-blue\" onclick="location.href='/delete?login=${user.login}'">Delete</button>
+                            <button class="w3-btn w3-round-large w3-light-blue\" onclick="location.href='/admin/update?id=${user.id}'">Update</button>
+                            <button class="w3-btn w3-round-large w3-light-blue\" onclick="location.href='/admin/delete?login=${user.login}'">Delete</button>
                         </li>
                     </c:forEach>
                 </ul>
