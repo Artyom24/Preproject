@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter("/auth")
-public class IndexServletFilter implements Filter {
+@WebFilter("/admin/*")
+public class AdminServletFilter implements Filter {
     private FilterConfig fConfig;
 
     @Override
@@ -26,25 +26,27 @@ public class IndexServletFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        String login  = servletRequest.getParameter("login");
-        String password = servletRequest.getParameter("pass");
-        User user = UserService.getInstance().getUserByLogin(login);
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpSession session = request.getSession();
-        if(user!=null && user.getPassword().equals(password)) {
-            session.setAttribute("user", user);
-            if(user.getRole().equals("user")) {
+        User user = (User)session.getAttribute("user");
+        if(user!=null) {
+            if (user.getRole().equals("admin")) {
+                String sign = request.getParameter("sign");
+                if(sign!=null && sign.equals("out")) {
+                    session.removeAttribute("user");
+                    response.sendRedirect("/");
+                }
+                else {
+                    filterChain.doFilter(servletRequest, servletResponse);
+                }
+
+            } else {
                 response.sendRedirect("/user");
-            }
-            else if(user.getRole().equals("admin")) {
-                response.sendRedirect("/admin/list");
             }
         }
         else {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
-
+            response.sendRedirect("/");
         }
     }
 }
